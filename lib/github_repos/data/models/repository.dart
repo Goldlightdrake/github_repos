@@ -12,6 +12,23 @@ class Repository {
     this.issues,
   });
 
+  factory Repository.fromMap(Map<String, dynamic> map) {
+    return Repository(
+      id: map['id'] as String,
+      name: map['name'] as String,
+      isLoading: map['isLoading'] as bool,
+      isEmpty: map['isEmpty'] as bool,
+      url: map['url'] as String,
+      issues: List<Issue>.from(
+        map['issues']?.map((Map<String, dynamic> x) => Issue.fromMap(x))
+            as Iterable<dynamic>,
+      ),
+    );
+  }
+
+  factory Repository.fromJson(String source) =>
+      Repository.fromMap(json.decode(source) as Map<String, dynamic>);
+
   final String id;
   final String name;
   final bool isLoading;
@@ -30,22 +47,5 @@ class Repository {
     };
   }
 
-  factory Repository.fromMap(Map<String, dynamic> map) {
-    return Repository(
-      id: map['id'] as String,
-      name: map['name'] as String,
-      isLoading: map['isLoading'] as bool,
-      isEmpty: map['isEmpty'] as bool,
-      url: map['url'] as String,
-      issues: List<Issue>.from(
-        map['issues']?.map((Map<String, dynamic> x) => Issue.fromMap(x))
-            as Iterable<dynamic>,
-      ),
-    );
-  }
-
   String toJson() => json.encode(toMap());
-
-  factory Repository.fromJson(String source) =>
-      Repository.fromMap(json.decode(source) as Map<String, dynamic>);
 }
