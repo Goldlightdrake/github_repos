@@ -5,6 +5,6 @@ class GitHubRepos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text('Hi')));
+    return const Scaffold(body: Center(child: Text('Hello there')));
   }
 }
