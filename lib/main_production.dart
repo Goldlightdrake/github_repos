@@ -6,8 +6,9 @@
 // https://opensource.org/licenses/MIT.
 
 import 'package:github_repos/app/app.dart';
+import 'package:github_repos/app/router.dart';
 import 'package:github_repos/bootstrap.dart';
 
 void main() {
-  bootstrap(() => const App());
+  bootstrap(() => App(router: AppRouter()));
 }
