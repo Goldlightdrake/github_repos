@@ -5,25 +5,7 @@ import 'package:github_repos/github_repos/data/dio_client.dart';
 import 'package:github_repos/github_repos/data/models/issue/issue.dart';
 import 'package:github_repos/github_repos/data/models/pull_request/pull_request.dart';
 
-// part 'repository.freezed.dart';
 part 'repository.g.dart';
-
-// @freezed
-// class Repository with _$Repository {
-//   @JsonSerializable(explicitToJson: true)
-//   const factory Repository({
-//     required int id,
-//     @JsonKey(name: 'full_name') required String fullName,
-//     required String url,
-//     @JsonKey(name: 'issues_url') required String? issuesUrl,
-//     @JsonKey(name: 'pulls_url') required String? pullsUrl,
-//   }) = _Repository;
-
-//   final _dataRepository = DataRepository(DioClient());
-
-//   factory Repository.fromJson(Map<String, dynamic> json) =>
-//       _$RepositoryFromJson(json);
-// }
 
 @JsonSerializable()
 class Repository {
@@ -54,7 +36,7 @@ class Repository {
     if (issuesUrl == null) {
       return [];
     }
-    var issueEndPoint = issuesUrl!.split('/').sublist(3, 7).join('/');
+    final issueEndPoint = issuesUrl!.split('/').sublist(3, 7).join('/');
     final listOfIssues = await _dataRepository
         .fetchIssues(issueEndPoint.substring(0, issueEndPoint.length - 1));
     return listOfIssues;
@@ -64,7 +46,7 @@ class Repository {
     if (pullsUrl == null) {
       return [];
     }
-    var pullsEndPoint = pullsUrl!.split('/').sublist(3, 7).join('/');
+    final pullsEndPoint = pullsUrl!.split('/').sublist(3, 7).join('/');
     final listOfPulls = await _dataRepository.fetchPullRequests(
         pullsEndPoint.substring(0, pullsEndPoint.length - 1));
     return listOfPulls;

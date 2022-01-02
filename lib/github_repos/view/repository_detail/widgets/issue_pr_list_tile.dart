@@ -20,7 +20,6 @@ class IssuePullRequestListTile extends StatelessWidget {
       child: ListTile(
         style: ListTileStyle.drawer,
         title: Text(_title),
-        onTap: () => null,
       ),
     );
   }

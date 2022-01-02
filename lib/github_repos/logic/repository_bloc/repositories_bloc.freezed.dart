@@ -473,11 +473,12 @@ class _$RepositoriesStateTearOff {
     return const _RepositoriesLoading();
   }
 
-  _RepositoriesContent content(
-      List<Repository> listOfRepositories, String searchedPhrase) {
+  _RepositoriesContent content(List<Repository> listOfRepositories,
+      String searchedPhrase, bool hasReachedMax) {
     return _RepositoriesContent(
       listOfRepositories,
       searchedPhrase,
+      hasReachedMax,
     );
   }
 
@@ -494,8 +495,8 @@ mixin _$RepositoriesState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(
-            List<Repository> listOfRepositories, String searchedPhrase)
+    required TResult Function(List<Repository> listOfRepositories,
+            String searchedPhrase, bool hasReachedMax)
         content,
     required TResult Function() error,
   }) =>
@@ -503,8 +504,8 @@ mixin _$RepositoriesState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            List<Repository> listOfRepositories, String searchedPhrase)?
+    TResult Function(List<Repository> listOfRepositories, String searchedPhrase,
+            bool hasReachedMax)?
         content,
     TResult Function()? error,
   }) =>
@@ -512,8 +513,8 @@ mixin _$RepositoriesState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            List<Repository> listOfRepositories, String searchedPhrase)?
+    TResult Function(List<Repository> listOfRepositories, String searchedPhrase,
+            bool hasReachedMax)?
         content,
     TResult Function()? error,
     required TResult orElse(),
@@ -602,8 +603,8 @@ class _$_RepositoriesLoading implements _RepositoriesLoading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(
-            List<Repository> listOfRepositories, String searchedPhrase)
+    required TResult Function(List<Repository> listOfRepositories,
+            String searchedPhrase, bool hasReachedMax)
         content,
     required TResult Function() error,
   }) {
@@ -614,8 +615,8 @@ class _$_RepositoriesLoading implements _RepositoriesLoading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            List<Repository> listOfRepositories, String searchedPhrase)?
+    TResult Function(List<Repository> listOfRepositories, String searchedPhrase,
+            bool hasReachedMax)?
         content,
     TResult Function()? error,
   }) {
@@ -626,8 +627,8 @@ class _$_RepositoriesLoading implements _RepositoriesLoading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            List<Repository> listOfRepositories, String searchedPhrase)?
+    TResult Function(List<Repository> listOfRepositories, String searchedPhrase,
+            bool hasReachedMax)?
         content,
     TResult Function()? error,
     required TResult orElse(),
@@ -682,7 +683,10 @@ abstract class _$RepositoriesContentCopyWith<$Res> {
   factory _$RepositoriesContentCopyWith(_RepositoriesContent value,
           $Res Function(_RepositoriesContent) then) =
       __$RepositoriesContentCopyWithImpl<$Res>;
-  $Res call({List<Repository> listOfRepositories, String searchedPhrase});
+  $Res call(
+      {List<Repository> listOfRepositories,
+      String searchedPhrase,
+      bool hasReachedMax});
 }
 
 /// @nodoc
@@ -700,6 +704,7 @@ class __$RepositoriesContentCopyWithImpl<$Res>
   $Res call({
     Object? listOfRepositories = freezed,
     Object? searchedPhrase = freezed,
+    Object? hasReachedMax = freezed,
   }) {
     return _then(_RepositoriesContent(
       listOfRepositories == freezed
@@ -710,6 +715,10 @@ class __$RepositoriesContentCopyWithImpl<$Res>
           ? _value.searchedPhrase
           : searchedPhrase // ignore: cast_nullable_to_non_nullable
               as String,
+      hasReachedMax == freezed
+          ? _value.hasReachedMax
+          : hasReachedMax // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -717,16 +726,19 @@ class __$RepositoriesContentCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_RepositoriesContent implements _RepositoriesContent {
-  const _$_RepositoriesContent(this.listOfRepositories, this.searchedPhrase);
+  const _$_RepositoriesContent(
+      this.listOfRepositories, this.searchedPhrase, this.hasReachedMax);
 
   @override
   final List<Repository> listOfRepositories;
   @override
   final String searchedPhrase;
+  @override
+  final bool hasReachedMax;
 
   @override
   String toString() {
-    return 'RepositoriesState.content(listOfRepositories: $listOfRepositories, searchedPhrase: $searchedPhrase)';
+    return 'RepositoriesState.content(listOfRepositories: $listOfRepositories, searchedPhrase: $searchedPhrase, hasReachedMax: $hasReachedMax)';
   }
 
   @override
@@ -737,14 +749,17 @@ class _$_RepositoriesContent implements _RepositoriesContent {
             const DeepCollectionEquality()
                 .equals(other.listOfRepositories, listOfRepositories) &&
             const DeepCollectionEquality()
-                .equals(other.searchedPhrase, searchedPhrase));
+                .equals(other.searchedPhrase, searchedPhrase) &&
+            const DeepCollectionEquality()
+                .equals(other.hasReachedMax, hasReachedMax));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(listOfRepositories),
-      const DeepCollectionEquality().hash(searchedPhrase));
+      const DeepCollectionEquality().hash(searchedPhrase),
+      const DeepCollectionEquality().hash(hasReachedMax));
 
   @JsonKey(ignore: true)
   @override
@@ -756,38 +771,38 @@ class _$_RepositoriesContent implements _RepositoriesContent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(
-            List<Repository> listOfRepositories, String searchedPhrase)
+    required TResult Function(List<Repository> listOfRepositories,
+            String searchedPhrase, bool hasReachedMax)
         content,
     required TResult Function() error,
   }) {
-    return content(listOfRepositories, searchedPhrase);
+    return content(listOfRepositories, searchedPhrase, hasReachedMax);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            List<Repository> listOfRepositories, String searchedPhrase)?
+    TResult Function(List<Repository> listOfRepositories, String searchedPhrase,
+            bool hasReachedMax)?
         content,
     TResult Function()? error,
   }) {
-    return content?.call(listOfRepositories, searchedPhrase);
+    return content?.call(listOfRepositories, searchedPhrase, hasReachedMax);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            List<Repository> listOfRepositories, String searchedPhrase)?
+    TResult Function(List<Repository> listOfRepositories, String searchedPhrase,
+            bool hasReachedMax)?
         content,
     TResult Function()? error,
     required TResult orElse(),
   }) {
     if (content != null) {
-      return content(listOfRepositories, searchedPhrase);
+      return content(listOfRepositories, searchedPhrase, hasReachedMax);
     }
     return orElse();
   }
@@ -828,12 +843,12 @@ class _$_RepositoriesContent implements _RepositoriesContent {
 }
 
 abstract class _RepositoriesContent implements RepositoriesState {
-  const factory _RepositoriesContent(
-          List<Repository> listOfRepositories, String searchedPhrase) =
-      _$_RepositoriesContent;
+  const factory _RepositoriesContent(List<Repository> listOfRepositories,
+      String searchedPhrase, bool hasReachedMax) = _$_RepositoriesContent;
 
   List<Repository> get listOfRepositories;
   String get searchedPhrase;
+  bool get hasReachedMax;
   @JsonKey(ignore: true)
   _$RepositoriesContentCopyWith<_RepositoriesContent> get copyWith =>
       throw _privateConstructorUsedError;
@@ -881,8 +896,8 @@ class _$_RepositoriesError implements _RepositoriesError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(
-            List<Repository> listOfRepositories, String searchedPhrase)
+    required TResult Function(List<Repository> listOfRepositories,
+            String searchedPhrase, bool hasReachedMax)
         content,
     required TResult Function() error,
   }) {
@@ -893,8 +908,8 @@ class _$_RepositoriesError implements _RepositoriesError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            List<Repository> listOfRepositories, String searchedPhrase)?
+    TResult Function(List<Repository> listOfRepositories, String searchedPhrase,
+            bool hasReachedMax)?
         content,
     TResult Function()? error,
   }) {
@@ -905,8 +920,8 @@ class _$_RepositoriesError implements _RepositoriesError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            List<Repository> listOfRepositories, String searchedPhrase)?
+    TResult Function(List<Repository> listOfRepositories, String searchedPhrase,
+            bool hasReachedMax)?
         content,
     TResult Function()? error,
     required TResult orElse(),

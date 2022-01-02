@@ -48,25 +48,44 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 );
               },
-              content: (listOfRepositories, searched) {
-                viewFromState = Expanded(
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    itemCount: listOfRepositories.length + 1,
-                    itemBuilder: (context, index) => index >=
-                            listOfRepositories.length
-                        ? const Center(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 10),
-                              child: CircularProgressIndicator(strokeWidth: 2),
+              content: (listOfRepositories, searched, hasReachedMax) {
+                if (listOfRepositories.isEmpty) {
+                  viewFromState = Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'There is no repositories to show!',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Icon(Icons.error),
+                      ],
+                    ),
+                  );
+                } else {
+                  viewFromState = Expanded(
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: hasReachedMax
+                          ? listOfRepositories.length
+                          : listOfRepositories.length + 1,
+                      itemBuilder: (context, index) => index >=
+                              listOfRepositories.length
+                          ? const Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child:
+                                    CircularProgressIndicator(strokeWidth: 2),
+                              ),
+                            )
+                          : RepositoryListTile(
+                              listOfRepositories[index],
+                              key: UniqueKey(),
                             ),
-                          )
-                        : RepositoryListTile(
-                            listOfRepositories[index],
-                            key: UniqueKey(),
-                          ),
-                  ),
-                );
+                    ),
+                  );
+                }
               },
               error: () {
                 viewFromState = Center(
@@ -92,7 +111,7 @@ class _MainScreenState extends State<MainScreen> {
       final state = context.read<RepositoriesBloc>().state;
       // ignore: cascade_invocations
       state.maybeWhen(
-        content: (listOfRepositories, searchedPhrase) {
+        content: (listOfRepositories, searchedPhrase, hasReachedMax) {
           if (searchedPhrase.isNotEmpty) {
             context.read<RepositoriesBloc>().add(
                   RepositoriesEvent.searchForRepository(searchedPhrase),

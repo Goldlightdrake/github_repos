@@ -7,11 +7,9 @@
 
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:github_repos/app/router.dart';
-import 'package:github_repos/l10n/l10n.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -57,11 +55,6 @@ class App extends StatelessWidget {
             accentColor: const Color(0xff2d333b),
           ),
         ),
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
       ),
     );
   }

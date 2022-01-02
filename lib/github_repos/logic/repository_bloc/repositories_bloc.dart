@@ -28,17 +28,29 @@ class RepositoriesBloc extends Bloc<RepositoriesEvent, RepositoriesState> {
     await state.when(
       loading: () async {
         final listOfRepositories = await _dataRepository.fetchRepositories();
-        emittedState = RepositoriesState.content(listOfRepositories, '');
+        emittedState = RepositoriesState.content(listOfRepositories, '', false);
       },
-      content:
-          (List<Repository> listOfRepositories, String searchedPhrase) async {
+      content: (
+        List<Repository> listOfRepositories,
+        String searchedPhrase,
+        bool hasReachedMax,
+      ) async {
         final newListOfRepositories = await _dataRepository.fetchRepositories(
           since: listOfRepositories[listOfRepositories.length - 1].id,
         );
-        emittedState = RepositoriesState.content(
-          List.of(listOfRepositories)..addAll(newListOfRepositories),
-          searchedPhrase,
-        );
+        if (newListOfRepositories.isEmpty) {
+          emittedState = RepositoriesState.content(
+            listOfRepositories,
+            searchedPhrase,
+            true,
+          );
+        } else {
+          emittedState = RepositoriesState.content(
+            List.of(listOfRepositories)..addAll(newListOfRepositories),
+            searchedPhrase,
+            hasReachedMax,
+          );
+        }
       },
       error: () {
         emittedState = const RepositoriesState.error();
@@ -56,20 +68,38 @@ class RepositoriesBloc extends Bloc<RepositoriesEvent, RepositoriesState> {
       loading: () async {
         final listOfRepositories = await _dataRepository
             .fetchSearchedRepositories(event.searchedPhrase);
-        emittedState =
-            RepositoriesState.content(listOfRepositories, event.searchedPhrase);
+        emittedState = RepositoriesState.content(
+          listOfRepositories,
+          event.searchedPhrase,
+          false,
+        );
       },
-      content:
-          (List<Repository> listOfRepositories, String searchedPhrase) async {
+      content: (
+        List<Repository> listOfRepositories,
+        String searchedPhrase,
+        bool hasReachedMax,
+      ) async {
+        final pageCount = listOfRepositories.isEmpty
+            ? 1
+            : (listOfRepositories.length / 30).round() + 1;
         final newListOfRepositories =
             await _dataRepository.fetchSearchedRepositories(
           event.searchedPhrase,
-          page: (listOfRepositories.length / 30).round() + 2,
+          page: pageCount,
         );
-        emittedState = RepositoriesState.content(
-          List.of(listOfRepositories)..addAll(newListOfRepositories),
-          searchedPhrase,
-        );
+        if (newListOfRepositories.isEmpty) {
+          emittedState = RepositoriesState.content(
+            listOfRepositories,
+            searchedPhrase,
+            true,
+          );
+        } else {
+          emittedState = RepositoriesState.content(
+            List.of(listOfRepositories)..addAll(newListOfRepositories),
+            searchedPhrase,
+            hasReachedMax,
+          );
+        }
       },
       error: () {
         emittedState = const RepositoriesState.error();

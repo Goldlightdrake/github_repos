@@ -6,6 +6,7 @@ class RepositoriesState with _$RepositoriesState {
   const factory RepositoriesState.content(
     List<Repository> listOfRepositories,
     String searchedPhrase,
+    bool hasReachedMax,
   ) = _RepositoriesContent;
   const factory RepositoriesState.error() = _RepositoriesError;
 }
